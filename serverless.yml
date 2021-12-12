@@ -1,0 +1,21 @@
+service: serverless-nestjs
+frameworkVersion: '2'
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-southeast-1'}
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+functions:
+  app:
+    handler: dist/serverless.handler
+    events:
+      - http:
+          method: any
+          path: /{any+}
+plugins:
+  - serverless-offline
